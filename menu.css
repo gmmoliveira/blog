@@ -1,9 +1,52 @@
 #top_menu {
-	margin: auto;
+	margin: 0em;
+	padding: 0em;
+	border: 0em;
 	text-align: right;
 	background-color: black;
 	width: 100%;
+	max-height: auto;
 }
+#lower_top {
+	background-color: black;
+	margin: 0em;
+	padding: 0em;
+	border: 0em;
+	text-align: center;
+	width: inherit;
+	max-height: auto;
+}
+
+#lower_top_bg_img {
+	width: 100%;
+	height: auto;
+	margin: 0em;
+	padding: 0em;
+	border: 0em;
+}
+
+#face_top {
+	max-width: 35%;
+	height: 0em;
+	margin: 0em;
+	display: inline-block;
+	text-align: center;
+	vertical-align: middle;
+}
+#face {
+	max-width: inherit;
+	height: auto;
+	
+	position: relative;
+}
+
+
+
+
+
+
+
+
 
 button.top_menu_buttons {
 	font-family:'Roboto',sans-serif;
