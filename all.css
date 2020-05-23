@@ -1,37 +1,33 @@
-button.top_menu_buttons {
-	font-family: times;
-	font-weight: bold;
-	font-size: 140%;
-	color:#000000;
-	text-align:center;
-	transition: all 0.9s;
-	border: 0.2em solid #FFFFFF;
-	margin-top: 0.3em;
-	margin-bottom: 0.3em;
-	margin-right:0.3em;
+#ul_top_menu {
+	list-style-type: none;
+	margin: 0;
+	padding: 0;
+	overflow: hidden;
+	background-color: black;
 }
-button.top_menu_buttons:hover {
-	font-family: times;
-	font-weight: bold;
-	font-size: 140%;
-	color:#000000;
-	text-align:center;
-	transition: all 0.9s;
-	border: 0.2em solid #000000;
-	margin-top: 0.3em;
-	margin-bottom: 0.3em;
-	margin-right:0.3em;
+.li_top_menu {
+	float: left;
+}
+.li_top_menu a {
+	display: inline-block;
+	color: white;
+	text-align: center;
+	padding: 1em 1em;
+	text-decoration: none;
+}
+.li_top_menu a:hover {
+	background-color: red;
 }
 
 #top_menu {
-	margin: 0em;
-	padding: 0em;
-	border: 0em;
-	text-align: right;
 	background-color: black;
 	width: 100%;
 	max-height: auto;
+	margin: 0;
+	padding: 0;
+	border: 0;
 }
+
 #lower_top {
 	background-color: black;
 	margin: 0em;
@@ -44,6 +40,10 @@ button.top_menu_buttons:hover {
     background-size: cover;
 }
 #face {
+	background-size: cover;
+    background-position: top center;
+    border-radius: 50%;
+
 	position: relative;
     left: 0;
     top: 0;
@@ -52,14 +52,47 @@ button.top_menu_buttons:hover {
     display: block;
     margin: auto;
     padding-top: 5em;
-    padding-bottom: 2em;
+    padding-bottom: 0.1em;
     padding-right: 0;
     padding-left: 0;
 
     width: 10%;
     max-height: auto;
 }
+
 @supports (-ms-ime-align:auto) {
+	#name {
+		font-size: 1em;
+		text-align: center;
+		margin: auto;
+		padding: auto;
+		padding-bottom: 0.5em;
+		color: white;
+		text-shadow: 1px 1px 0 black,
+	    -1px 1px 0 black,
+	    1px -1px 0 black,
+	    -1px -1px 0 black,
+	    0px 1px 0 black,
+	    0px -1px 0 black,
+	    -1px 0px 0 black,
+	    1px 0px 0 black,
+	    2px 2px 0 black,
+	    -2px 2px 0 black,
+	    2px -2px 0 black,
+	    -2px -2px 0 black,
+	    0px 2px 0 black,
+	    0px -2px 0 black,
+	    -2px 0px 0 black,
+	    2px 0px 0 black,
+	    1px 2px 0 black,
+	    -1px 2px 0 black,
+	    1px -2px 0 black,
+	    -1px -2px 0 black,
+	    2px 1px 0 black,
+	    -2px 1px 0 black,
+	    2px -1px 0 black,
+	    -2px -1px 0 black;
+	}
 	#page_title {
 		font-size: 5em;
 		text-align: center;
@@ -114,6 +147,39 @@ button.top_menu_buttons:hover {
 	}
 }
 @media all and (-ms-high-contrast: none) {
+	#name {
+		font-family: arial;
+		font-size: 2em;
+		text-align: center;
+		margin: auto;
+		padding: auto;
+		padding-bottom: 1em;
+		color: white;
+		text-shadow: 1px 1px 0 black,
+	    -1px 1px 0 black,
+	    1px -1px 0 black,
+	    -1px -1px 0 black,
+	    0px 1px 0 black,
+	    0px -1px 0 black,
+	    -1px 0px 0 black,
+	    1px 0px 0 black,
+	    2px 2px 0 black,
+	    -2px 2px 0 black,
+	    2px -2px 0 black,
+	    -2px -2px 0 black,
+	    0px 2px 0 black,
+	    0px -2px 0 black,
+	    -2px 0px 0 black,
+	    2px 0px 0 black,
+	    1px 2px 0 black,
+	    -1px 2px 0 black,
+	    1px -2px 0 black,
+	    -1px -2px 0 black,
+	    2px 1px 0 black,
+	    -2px 1px 0 black,
+	    2px -1px 0 black,
+	    -2px -1px 0 black;
+	}
 	#page_title {
 		font-size: 5em;
 		text-align: center;
@@ -168,17 +234,28 @@ button.top_menu_buttons:hover {
 	}
 }
 @supports (-webkit-text-stroke-width: 0) {
-  #page_title {
-  	font-family: arial;
-  	font-size: 5em;
-	text-align: center;
-	margin: auto;
-	padding: auto;
-	padding-bottom: 0.5em;
-	color: white;
-    -webkit-text-stroke-width: 0.03em;
-	-webkit-text-stroke-color: #555555;
-  }
+	#name {
+		font-family: arial black;
+		font-size: 2em;
+		text-align: center;
+		margin: auto;
+		padding: auto;
+		padding-bottom: 1em;
+		color: white;
+		-webkit-text-stroke-width: 0.06em;
+		-webkit-text-stroke-color: #333333;
+	}
+	#page_title {
+		font-family: arial;
+		font-size: 5em;
+		text-align: center;
+		margin: auto;
+		padding: auto;
+		padding-bottom: 0.5em;
+		color: white;
+		-webkit-text-stroke-width: 0.03em;
+		-webkit-text-stroke-color: #555555;
+	}
 }
 
 #main_text {
@@ -186,4 +263,31 @@ button.top_menu_buttons:hover {
 	text-justify: inter-word;
 	padding: 1em;
 	font-size: 2em;
+}
+
+#page_dates {
+	margin: 0em;
+	padding: 0em;
+	border: 0em;
+	text-align: right;
+	background-color: white;
+	width: 98%;
+	max-height: auto;
+}
+
+#footer {
+	background-color: black;
+	color: white;
+	text-align: center;
+	font-size: 1em;
+	width: inherit;
+	padding: 2em;
+}
+
+.footer_links {
+	color: blue;
+}
+.footer_links:hover {
+	color: white;
+	cursor: pointer;
 }
