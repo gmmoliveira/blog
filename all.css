@@ -35,25 +35,25 @@
 	border: 0em;
 	
 	position: relative;
-    background-image: url(resources/top_bg1.jpg);
-    background-position: center;
-    background-size: cover;
+	background-image: url(resources/top_bg1.jpg);
+	background-position: center;
+	background-size: cover;
 }
 #face {
 	position: relative;
-    left: 0;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    display: block;
-    margin: auto;
-    padding-top: 5em;
-    padding-bottom: 0.1em;
-    padding-right: 0;
-    padding-left: 0;
+	left: 0;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	display: block;
+	margin: auto;
+	padding-top: 5em;
+	padding-bottom: 0.1em;
+	padding-right: 0;
+	padding-left: 0;
 
-    width: 10%;
-    max-height: auto;
+	width: 10%;
+	max-height: auto;
 }
 
 @supports (-ms-ime-align:auto) {
@@ -65,29 +65,29 @@
 		padding-bottom: 0.5em;
 		color: white;
 		text-shadow: 1px 1px 0 black,
-	    -1px 1px 0 black,
-	    1px -1px 0 black,
-	    -1px -1px 0 black,
-	    0px 1px 0 black,
-	    0px -1px 0 black,
-	    -1px 0px 0 black,
-	    1px 0px 0 black,
-	    2px 2px 0 black,
-	    -2px 2px 0 black,
-	    2px -2px 0 black,
-	    -2px -2px 0 black,
-	    0px 2px 0 black,
-	    0px -2px 0 black,
-	    -2px 0px 0 black,
-	    2px 0px 0 black,
-	    1px 2px 0 black,
-	    -1px 2px 0 black,
-	    1px -2px 0 black,
-	    -1px -2px 0 black,
-	    2px 1px 0 black,
-	    -2px 1px 0 black,
-	    2px -1px 0 black,
-	    -2px -1px 0 black;
+		-1px 1px 0 black,
+		1px -1px 0 black,
+		-1px -1px 0 black,
+		0px 1px 0 black,
+		0px -1px 0 black,
+		-1px 0px 0 black,
+		1px 0px 0 black,
+		2px 2px 0 black,
+		-2px 2px 0 black,
+		2px -2px 0 black,
+		-2px -2px 0 black,
+		0px 2px 0 black,
+		0px -2px 0 black,
+		-2px 0px 0 black,
+		2px 0px 0 black,
+		1px 2px 0 black,
+		-1px 2px 0 black,
+		1px -2px 0 black,
+		-1px -2px 0 black,
+		2px 1px 0 black,
+		-2px 1px 0 black,
+		2px -1px 0 black,
+		-2px -1px 0 black;
 	}
 	#page_title {
 		font-size: 5em;
@@ -97,49 +97,49 @@
 		padding-bottom: 0.5em;
 		color: white;
 		text-shadow: 1px 1px 0 black,
-	    -1px 1px 0 black,
-	    1px -1px 0 black,
-	    -1px -1px 0 black,
-	    0px 1px 0 black,
-	    0px -1px 0 black,
-	    -1px 0px 0 black,
-	    1px 0px 0 black,
-	    2px 2px 0 black,
-	    -2px 2px 0 black,
-	    2px -2px 0 black,
-	    -2px -2px 0 black,
-	    0px 2px 0 black,
-	    0px -2px 0 black,
-	    -2px 0px 0 black,
-	    2px 0px 0 black,
-	    1px 2px 0 black,
-	    -1px 2px 0 black,
-	    1px -2px 0 black,
-	    -1px -2px 0 black,
-	    2px 1px 0 black,
-	    -2px 1px 0 black,
-	    2px -1px 0 black,
-	    -2px -1px 0 black,
+		-1px 1px 0 black,
+		1px -1px 0 black,
+		-1px -1px 0 black,
+		0px 1px 0 black,
+		0px -1px 0 black,
+		-1px 0px 0 black,
+		1px 0px 0 black,
+		2px 2px 0 black,
+		-2px 2px 0 black,
+		2px -2px 0 black,
+		-2px -2px 0 black,
+		0px 2px 0 black,
+		0px -2px 0 black,
+		-2px 0px 0 black,
+		2px 0px 0 black,
+		1px 2px 0 black,
+		-1px 2px 0 black,
+		1px -2px 0 black,
+		-1px -2px 0 black,
+		2px 1px 0 black,
+		-2px 1px 0 black,
+		2px -1px 0 black,
+		-2px -1px 0 black,
 
-	    3px 1px 0 black,
-	    -3px 1px 0 black,
-	    3px -1px 0 black,
-	    -3px -1px 0 black,
-	    0px 3px 0 black,
-	    0px -3px 0 black,
-	    -1px 3px 0 black,
-	    1px 3px 0 black,
-	    2px 3px 0 black,
-	    -2px 3px 0 black,
-	    2px -3px 0 black,
-	    -2px -3px 0 black,
-	    3px 2px 0 black,
-	    3px -2px 0 black,
-	    -3px 0px 0 black,
-	    3px 0px 0 black,
-	    3px 2px 0 black,
-	    -3px -3px 0 black,
-	    3px 3px 0 black;
+		3px 1px 0 black,
+		-3px 1px 0 black,
+		3px -1px 0 black,
+		-3px -1px 0 black,
+		0px 3px 0 black,
+		0px -3px 0 black,
+		-1px 3px 0 black,
+		1px 3px 0 black,
+		2px 3px 0 black,
+		-2px 3px 0 black,
+		2px -3px 0 black,
+		-2px -3px 0 black,
+		3px 2px 0 black,
+		3px -2px 0 black,
+		-3px 0px 0 black,
+		3px 0px 0 black,
+		3px 2px 0 black,
+		-3px -3px 0 black,
+		3px 3px 0 black;
 	}
 }
 @media all and (-ms-high-contrast: none) {
@@ -152,29 +152,29 @@
 		padding-bottom: 1em;
 		color: white;
 		text-shadow: 1px 1px 0 black,
-	    -1px 1px 0 black,
-	    1px -1px 0 black,
-	    -1px -1px 0 black,
-	    0px 1px 0 black,
-	    0px -1px 0 black,
-	    -1px 0px 0 black,
-	    1px 0px 0 black,
-	    2px 2px 0 black,
-	    -2px 2px 0 black,
-	    2px -2px 0 black,
-	    -2px -2px 0 black,
-	    0px 2px 0 black,
-	    0px -2px 0 black,
-	    -2px 0px 0 black,
-	    2px 0px 0 black,
-	    1px 2px 0 black,
-	    -1px 2px 0 black,
-	    1px -2px 0 black,
-	    -1px -2px 0 black,
-	    2px 1px 0 black,
-	    -2px 1px 0 black,
-	    2px -1px 0 black,
-	    -2px -1px 0 black;
+		-1px 1px 0 black,
+		1px -1px 0 black,
+		-1px -1px 0 black,
+		0px 1px 0 black,
+		0px -1px 0 black,
+		-1px 0px 0 black,
+		1px 0px 0 black,
+		2px 2px 0 black,
+		-2px 2px 0 black,
+		2px -2px 0 black,
+		-2px -2px 0 black,
+		0px 2px 0 black,
+		0px -2px 0 black,
+		-2px 0px 0 black,
+		2px 0px 0 black,
+		1px 2px 0 black,
+		-1px 2px 0 black,
+		1px -2px 0 black,
+		-1px -2px 0 black,
+		2px 1px 0 black,
+		-2px 1px 0 black,
+		2px -1px 0 black,
+		-2px -1px 0 black;
 	}
 	#page_title {
 		font-size: 5em;
@@ -184,49 +184,49 @@
 		padding-bottom: 0.5em;
 		color: white;
 		text-shadow: 1px 1px 0 black,
-	    -1px 1px 0 black,
-	    1px -1px 0 black,
-	    -1px -1px 0 black,
-	    0px 1px 0 black,
-	    0px -1px 0 black,
-	    -1px 0px 0 black,
-	    1px 0px 0 black,
-	    2px 2px 0 black,
-	    -2px 2px 0 black,
-	    2px -2px 0 black,
-	    -2px -2px 0 black,
-	    0px 2px 0 black,
-	    0px -2px 0 black,
-	    -2px 0px 0 black,
-	    2px 0px 0 black,
-	    1px 2px 0 black,
-	    -1px 2px 0 black,
-	    1px -2px 0 black,
-	    -1px -2px 0 black,
-	    2px 1px 0 black,
-	    -2px 1px 0 black,
-	    2px -1px 0 black,
-	    -2px -1px 0 black,
+		-1px 1px 0 black,
+		1px -1px 0 black,
+		-1px -1px 0 black,
+		0px 1px 0 black,
+		0px -1px 0 black,
+		-1px 0px 0 black,
+		1px 0px 0 black,
+		2px 2px 0 black,
+		-2px 2px 0 black,
+		2px -2px 0 black,
+		-2px -2px 0 black,
+		0px 2px 0 black,
+		0px -2px 0 black,
+		-2px 0px 0 black,
+		2px 0px 0 black,
+		1px 2px 0 black,
+		-1px 2px 0 black,
+		1px -2px 0 black,
+		-1px -2px 0 black,
+		2px 1px 0 black,
+		-2px 1px 0 black,
+		2px -1px 0 black,
+		-2px -1px 0 black,
 
-	    3px 1px 0 black,
-	    -3px 1px 0 black,
-	    3px -1px 0 black,
-	    -3px -1px 0 black,
-	    0px 3px 0 black,
-	    0px -3px 0 black,
-	    -1px 3px 0 black,
-	    1px 3px 0 black,
-	    2px 3px 0 black,
-	    -2px 3px 0 black,
-	    2px -3px 0 black,
-	    -2px -3px 0 black,
-	    3px 2px 0 black,
-	    3px -2px 0 black,
-	    -3px 0px 0 black,
-	    3px 0px 0 black,
-	    3px 2px 0 black,
-	    -3px -3px 0 black,
-	    3px 3px 0 black;
+		3px 1px 0 black,
+		-3px 1px 0 black,
+		3px -1px 0 black,
+		-3px -1px 0 black,
+		0px 3px 0 black,
+		0px -3px 0 black,
+		-1px 3px 0 black,
+		1px 3px 0 black,
+		2px 3px 0 black,
+		-2px 3px 0 black,
+		2px -3px 0 black,
+		-2px -3px 0 black,
+		3px 2px 0 black,
+		3px -2px 0 black,
+		-3px 0px 0 black,
+		3px 0px 0 black,
+		3px 2px 0 black,
+		-3px -3px 0 black,
+		3px 3px 0 black;
 	}
 }
 @supports (-webkit-text-stroke-width: 0) {
