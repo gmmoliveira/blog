@@ -40,10 +40,6 @@
     background-size: cover;
 }
 #face {
-	background-size: cover;
-    background-position: top center;
-    border-radius: 50%;
-
 	position: relative;
     left: 0;
     top: 0;
