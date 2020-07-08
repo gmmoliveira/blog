@@ -1,0 +1,5 @@
+* This work contains code snippets which are highlighted using highlight.js and it's css style sheets (located under the sheets directory), retrieved from "https://highlightjs.org/", licensed under the BSD 3-Clause.
+* The top background picture was retrieved from "https://wall.alphacoders.com/big.php?i=685897", provided by the user "mehnaruto"
+
+I deeply appreciate all the above mentioned works which were used to derive this blog.
+This work is not endorsed by any of the above mentioned project(s), institution(s), group(s), people or entity(es).

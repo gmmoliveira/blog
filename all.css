@@ -16,7 +16,7 @@
 	text-decoration: none;
 }
 .li_top_menu a:hover {
-	background-color: red;
+	background-color: #000085;
 }
 
 #top_menu {
@@ -239,7 +239,7 @@
 		padding-bottom: 1em;
 		color: white;
 		-webkit-text-stroke-width: 0.06em;
-		-webkit-text-stroke-color: #333333;
+		-webkit-text-stroke-color: #000000;
 	}
 	#page_title {
 		font-family: arial;
@@ -250,7 +250,7 @@
 		padding-bottom: 0.5em;
 		color: white;
 		-webkit-text-stroke-width: 0.03em;
-		-webkit-text-stroke-color: #555555;
+		-webkit-text-stroke-color: #000000;
 	}
 }
 
@@ -258,7 +258,7 @@
 	text-align: justify;
 	text-justify: inter-word;
 	padding: 1em;
-	font-size: 2em;
+	font-size: 1.5em;
 }
 
 #page_dates {
@@ -286,4 +286,15 @@
 .footer_links:hover {
 	color: white;
 	cursor: pointer;
+}
+.inline_code {
+    background-color: lightgray;
+    font-style: italic;
+}
+a {
+    color: blue;
+}
+a:hover {
+    color: white;
+    background-color: #000085;
 }

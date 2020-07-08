@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="description" content="scientific/professional blog">
+		<meta name="author" content="Guilherme Oliveira">
+
+		<title>Guilherme Oliveira</title>
+
+		<link rel="stylesheet" type="text/css" href="all.css">
+		<script src="https://code.jquery.com/jquery-3.5.1.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
+		<script type="text/javascript" src="all.js"></script>
+
+		<link rel="stylesheet" href="styles/atelier-lakeside-dark.css">
+		<script src="highlight.pack.js"></script>
+		<script>hljs.initHighlightingOnLoad();</script>
+	</head>
+	<body>
+		<div id="top_img">
+			
+			<div id="top_menu">
+
+				<ul id="ul_top_menu">
+					<li class="li_top_menu"><a href="index.html"><b>Home & Appendix</b></a></li>
+					<li class="li_top_menu"><a href="cv.html"><b>CV</b></a></li>
+					<li class="li_top_menu"><a href="contact.html"><b>Contact</b></a></li>
+					<li class="li_top_menu"><a href="license.html"><b>Licenses</b></a></li>
+				</ul>
+
+				<div id="lower_top">
+					<img id="face" src="resources/face.jpg">
+					<div id="name">Guilherme Oliveira</div>
+					<h1 id="page_title">Machine Learning: training XGBoost models in single or multi-GPUs using Dask</h1>
+				</div>
+			</div>
+		</div>
+		<div id="main_text">
+			<h3>Introduction</h3>
+			This post explains how to train XGBoost models on multiple GPUs and how to use them to predict on unseen data
+			still on multiple GPUs, along with the necessary steps to detect the available GPU devices and distribute
+			the work among them. The training process on a single GPU provided speedups of approximately 10x. There
+			is a github link provided at the end of this article, containing python code implemented beyond the simple
+			example explained in this page. Further, I'm not going
+			to reinventing the wheel, instead, this article is focused on using consolidated frameworks which are
+			powerful and employed in production to solve real world problems.
+			<h3>XGBoost</h3>
+			The <a href="https://xgboost.readthedocs.io/en/latest/" target="_blank">XGBoost</a> library implements immensely powerful
+			algorithms under the (extreme) gradient boosting framework, in a highly efficient manner. Even though the
+			examples provided in this article are written in python, the XGBoost core is written in C++ and provides
+			interfaces for simple usage across many other programming languages such as Python, R, Java, Ruby, Swift,
+			Julia, C and C++. XGBoost enables the tasks of classification, regression and ranking, however, at the
+			present moment, only classification and regression tasks are available to be executed in the GPUs.
+			<h3>Dask</h3>
+			<a href="https://dask.org/" target="_blank">Dask</a> is a powerful library which enables python programs to scale using
+			threads and processes, running on CPUs or GPUs either on single-machine or multiple machines, including
+			thousand-node clusters. Many useful libraries implement routines to execute code using dask powered
+			parallelism, such as XGBoost.
+			<h3>Development</h3>
+			Importing the required libraries:
+<pre><code class="lang-python">from xgboost.dask import DaskDMatrix, train as dask_xgboost_train, predict as dask_xgboost_predict
+from dask.dataframe import from_array, from_pandas
+from dask.distributed import Client
+from dask_cuda import LocalCUDACluster
+import numpy as np
+import pandas as pd
+</code></pre>
+			The method <code class="inline_code">LocalCUDACluster</code> provided by <code class="inline_code">dask-cuda</code> enables the detection of GPU devices
+			on the local machine, in addition to means of executing supported code on them. It creates the abstraction
+			of a server, in which clients connect to using the <code class="inline_code">dask.distributed.Client</code> class.
+			The supported code to execute on cuda is provided by <code class="inline_code">xgboost.dask</code> in this case, substituting the regular
+			XGBoost methods which would traditionally train on the CPU. Finally, the <code class="inline_code">dask.dataframe</code> module
+			provides methods to transform traditional <code class="inline_code">numpy.ndarray</code> and <code class="inline_code">pandas.DataFrame</code> into
+			a dask dataframe which informs the dask library how to distribute the problem to it's client workers. Note
+			that the <code class="inline_code">xgboost.dask</code> methods will not accept regular numpy or pandas data structures.
+			<br><br>
+			Next, let's create <code class="inline_code">X</code> of dimensions <code class="inline_code">n x m</code>
+			as a <code class="inline_code">numpy.ndarray</code> composed of values in the range <code class="inline_code">[0, 1]</code> to be our training features
+			and similarly <code class="inline_code">y</code> as a 1D <code class="inline_code">numpy.ndarray</code> of
+			<code class="inline_code">n</code> elements to become the target (or labels) for a binary classification
+			task:
+<pre><code class="lang-python">n, m = 10 ** 4, 10
+rand = np.random.Generator(np.random.PCG64())
+X = rand.random(size=(n, m))
+y = np.array([1 if np.sum(X[i, :]) > 0.7 * m else 0 for i in range(X.shape[0])])</code></pre>
+			Though the size of the features <code class="inline_code">X</code> might seem relatively huge in this
+			example, a GPU might have ease at dealing with it.
+			The above snippet is very simple and the relevant aspect of it is that we set the target label to be 1
+			if the sum of the corresponding features <code class="inline_code">X</code> is greater than 70% of <code class="inline_code">m</code>, that is, 7. It is important to use
+			such a valid relationship between each instance of features in <code class="inline_code">X</code> and the corresponding label in <code class="inline_code">y</code> to make
+			the classification problem seem like a real one, instead of initializing <code class="inline_code">y</code> as random array unrelated to <code class="inline_code">X</code>.
+			<br><br>
+			Further, let's define parameters which will be given to the XGBoost to train with, keeping in mind that not all
+			parameters are currently accepted for a GPU execution (for more details check the XGBoost documentation):
+<pre><code class="lang-python">params = {
+	'learning_rate': 0.3,
+	'max_depth': 8,
+	'objective': 'binary:hinge',
+	'verbosity': 0,
+	'tree_method': 'gpu_hist'
+}</code></pre>
+			The method which we will use next is similar to the regular <code class="inline_code">xgboost.train</code>
+			in which
+			our goal classifier model distinguishes itself from the regression or ranking models by means of the <code class="inline_code">"objective"</code>
+			element in the above <code class="inline_code">params</code> dictionary. In this example, setting the
+			<code class="inline_code">"objective"</code> to
+			<code class="inline_code">"binary:hinge"</code> defines a classification task.
+			<br><br>
+			It's time to handle the local resources using Dask:
+<pre><code class="lang-python">local_gpus = LocalCUDACluster(n_workers=None, threads_per_worker=1)
+local_dask_client = Client(local_gpus)
+</code></pre>
+			The argument <code class="inline_code">n_workers</code> given to the
+			<code class="inline_code">LocalCudaCluster(...)</code> function defines the number of processes to be used
+			on the GPUs, however, the trick is that only a single process is allowed per GPU. Therefore, this parameter
+			controls the exact number of GPUs to be used and, when it's set to <code class="inline_code">None</code>, all
+			the available GPU devices will be used. Further in the same function, the
+			<code class="inline_code">threads_per_worker</code> parameter controls how many threads will be executed in
+			each GPU, in my local machine, the fastest results were obtained setting it to 1, probably due to threading
+			management overhead. Note that the dask client
+			might print plenty of information to the standard output/error console, which might not necessarily
+			mean there is something wrong. Keep in mind the above code snippet will use multiple GPUs if they are available,
+			however, on a single machine.
+			<br><br>
+			Later on, we transform both X and y into dask dataframes to feed them to the model traning function:
+<pre><code class="lang-python">data_chunksize = X.shape[0] // len(local_gpus.cuda_visible_devices)
+X = from_array(X, chunksize=data_chunksize)
+y = from_array(y, chunksize=data_chunksize)
+dtrain = DaskDMatrix(local_dask_client, X, y)
+xgb_model = dask_xgboost_train(local_dask_client, params, dtrain, num_boost_round=100, evals=[(dtrain, 'train')])
+</code></pre>
+			The <code class="inline_code">data_chunksize</code> parameter is very important, it is a dask dataframe
+			property which informs the dask workers on how to divide the input data among them. Choosing this parameter
+			wisely should yield better performance, it's mean't to be adapted to the hardware that you are using. In
+			the above code snippet, I'm dividing it evenly among all GPU devices, without further considerations of
+			the hardware at my disposal. The function <code class="inline_code">from_array</code> converts our
+			<code class="inline_code">numpy.ndarray</code>'s into <code class="inline_code">dask.dataframe</code>'s.
+			The newly created <code class="inline_code">dask.dataframe</code>'s are converted, using the GPUs, to
+			to a XGBoost's data type, that's because we are using a function from the <code class="inline_code">xgboost.dask</code>
+			module, passing it our <code class="inline_code">local_dask_client</code> variable, which was configured in
+			the previous step to execute on the GPUs.
+			Finally, the model is trained, again on the GPUs, due to our <code class="inline_code">local_dask_client</code>
+			variable being given to the <code class="inline_code">dask_xgboost_train</code> function. The returned object,
+			rather than a model as the regular <code class="inline_code">xgboost.train</code> would return, is a
+			dictionary containing two elements. The first one is keyed by the string
+			<code class="inline_code">"booster"</code> and contains the regular XGBoost model we were expecting, while
+			the second one keyed by the string <code class="inline_code">"history"</code> contains another dictionary
+			providing relevant information regarding the training process.
+			<br><br>
+			For completeness, here's what the final code of the example looks like:
+<pre><code class="lang-python">from xgboost.dask import DaskDMatrix, train as dask_xgboost_train, predict as dask_xgboost_predict
+from dask.dataframe import from_array, from_pandas
+from dask.distributed import Client
+from dask_cuda import LocalCUDACluster
+import numpy as np
+import pandas as pd
+
+n, m = 10 ** 4, 10
+rand = np.random.Generator(np.random.PCG64())
+X = rand.random(size=(n, m))
+y = np.array([1 if np.sum(X[i, :]) > 0.7 * m else 0 for i in range(X.shape[0])])
+params = {
+	'learning_rate': 0.3,
+	'max_depth': 8,
+	'objective': 'binary:hinge',
+	'verbosity': 0,
+	'tree_method': 'gpu_hist'
+}
+local_gpus = LocalCUDACluster(n_workers=None, threads_per_worker=1)
+local_dask_client = Client(local_gpus)
+data_chunksize = X.shape[0] // len(local_gpus.cuda_visible_devices)
+X = from_array(X, chunksize=data_chunksize)
+y = from_array(y, chunksize=data_chunksize)
+dtrain = DaskDMatrix(local_dask_client, X, y)
+xgb_model = dask_xgboost_train(local_dask_client, params, dtrain, num_boost_round=100, evals=[(dtrain, 'train')])
+</code></pre>
+			In the source-code provided at my github, you'll find a python script which contains:
+			<ul>
+				<li>a train function called <code class="inline_code">train_xgboost_gpu</code> encapsulating the above
+					mentioned code as a straightforward method for training a XGBoost model on multiple GPUs;</li>
+				<li>a predict function called <code class="inline_code">predict_xgboost_gpu</code> performing predictions
+					over the trained
+					model also on multiple GPUs (yet I would not recommend using it because it presented slower
+					results than the CPU on my machine, and it seems the memory allocated for the model is leaking,
+					due to some weird internal bug in the module <code class="inline_code">xgboost.dask</code> when
+					trying to deallocating the model instance); and</li>
+				<li>an example function training and predicting on 2 XGBoost models, 1 for regression and 1 for
+				classification.</li>
+			</ul>
+			<h3>Requirements, Installation & Testing Hardware Specs</h3>
+			The following resources were used in the scope of the python source-code provided which were also the
+			parameters taken into account for writing this article:
+			<ul>
+				<li>python 3.7</li>
+				<li>xgboost 1.1.1</li>
+				<li>dask 2.19.0</li>
+				<li>dask-cuda 0.14.1</li>
+				<li>numpy 1.18.2</li>
+				<li>pandas 1.0.3</li>
+			</ul>
+			Assuming you already have the specified python version, installing the above packages is easy using the
+			following console command:
+			<br>
+
+<pre><code class="language-bash">$ python[3.7] -m pip install numpy==1.18.2 pandas==1.0.3 dask==2.19.0 dask-cuda==0.14.1 xgboost==1.1.1</code></pre>
+			<br>
+			A few key points to dedicate attention are:
+			<ul>
+				<li>depending on your platform you should use just "python" or "python3" or "python3.7" (or any
+					other python version that you would like to try);</li>
+				<li>it's important to install xgboost using pip so the GPU modules are also installed by default.
+				Installing using conda is possible, however it might be harder (I haven't tried) and you need
+				to ensure by yourself that all the GPU required elements are indeed installed; and</li>
+				<li>later versions of any of the used resources might work as well.</li>
+			</ul>
+			The speedup for training on a single GPU was roughly 10x when comparing to the training on the CPU in the
+			same machine. The used machine is equipped with a Zotac Mini Nvidia Geforce 1060 GTX 3GB GDDR5 192-bit
+			paired with an AMD Ryzen 5 1600, running on Ubuntu Desktop 20.04. Nvidia driver version set to 440.33, GCC
+			version 10.1.
+
+			<h3>Source-code</h3>
+			Available on <a href="https://github.com/gmmoliveira/xgboost_gpu" target="_blank">my github page</a>,
+			written in Python.
+			A documentation of the code is provided in the "README.md" file, as well as docstrings in the source-code
+			itself.
+			<br><br><br>
+			<hr>
+			Cheers!
+			<br>
+			gmmoliveira1@gmail.com
+		</div>
+
+		<div id="page_dates">
+			Page created on <b>July 07, 2020</b>
+			<br>
+			Page last updated on <b>July 07, 2020</b>
+		</div>
+		
+		<div id="footer">
+			Web site created by Guilherme Oliveira, it may be used by anyone, free of charge. See <a class="footer_links" href="LICENSE.html" rel="noopener noreferrer" target="_blank">license</a>.
+			<hr>
+			Copyright <sup>&#9400;</sup> 2020 Guilherme Oliveira
+			<br>
+			SPDX-License-Identifier: <a class="footer_links" href="https://www.apache.org/licenses/LICENSE-2.0" rel="noopener noreferrer" target="_blank">Apache-2.0</a>
+		</div>
+	</body>
+</html>
