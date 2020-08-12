@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="description" content="scientific/professional blog">
+		<meta name="author" content="Guilherme Oliveira">
+
+		<title>Guilherme Oliveira</title>
+
+		<link rel="stylesheet" type="text/css" href="all.css">
+		<script src="https://code.jquery.com/jquery-3.5.1.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
+		<script type="text/javascript" src="all.js"></script>
+
+		<link rel="stylesheet" href="styles/atelier-lakeside-dark.css">
+		<script src="highlight.pack.js"></script>
+		<script>hljs.initHighlightingOnLoad();</script>
+	</head>
+	<body>
+		<div id="top_img">
+
+			<div id="top_menu">
+
+				<ul id="ul_top_menu">
+					<li class="li_top_menu"><a href="index.html"><b>Home & Appendix</b></a></li>
+					<li class="li_top_menu"><a href="cv.html"><b>CV</b></a></li>
+					<li class="li_top_menu"><a href="contact.html"><b>Contact</b></a></li>
+					<li class="li_top_menu"><a href="license.html"><b>Licenses</b></a></li>
+				</ul>
+
+				<div id="lower_top">
+					<img id="face" src="resources/face.jpg">
+					<div id="name">Guilherme Oliveira</div>
+					<h1 id="page_title">Graph learning: link prediction using graph embeddings</h1>
+				</div>
+			</div>
+		</div>
+		<div id="main_text">
+
+            <h3>Introduction</h3>
+            Learning tasks on structured data such as graphs may be achieved using different approaches, in this
+            article, we'll discuss a technique using embeddings for link prediction.
+            Link prediction refers to predicting the existence of unknown edges in a given graph, while embeddings are
+            multidimensional arrays
+            containing real values, they are representations for each vertex in a graph. Further, we will be working with
+            the <a href="https://github.com/tpimentelms/nbne" rel="noopener noreferrer" target="_blank">
+            NBNE (Neighbor Based Node Embeddings)</a> over an anonymized undirected and unweighted
+            <a href="https://snap.stanford.edu/data/egonets-Facebook.html" rel="noopener noreferrer" target="_blank">
+            example graph extracted from the facebook</a>,
+            containing more than 4 thousand vertices and 88 thousand edges. We should also watch for performance issues
+            while learning over such huge graph, therefore, in addition to efficient algorithms design, we will
+            also use
+            <a href="https://numba.pydata.org/" rel="noopener noreferrer" target="_blank">
+                Numba</a> for using the just-in-time compilation technique, converting part of our python code to C.
+            The
+            <a href="https://github.com/gmmoliveira/link-prediction" rel="noopener noreferrer" target="_blank">
+            source-code for this example of the link prediction task</a> is also provided at my github.
+            <h3>Overview: how the NBNE and the link prediction works</h3>
+            The NBNE is a robust and fast algorithm for learning graph embeddings compared to others
+            which are based on random walk techniques. Behind the scenes it uses the skipgram algorithm which was
+            originally designed to handle text, however, a text might be seen as a graph where each vertex is a word
+            and edges connect co-occurring words in a given context. Using this approach to it's advantage, the NBNE
+            also creates
+            permutations of the neighbors of each vertex, obeying a fixed window size, which is far more efficient
+            and effective than the random walk based methods. The main idea on creating the embeddings is to try predicting
+            a node given a set of it's neighbors. The embeddings produced may have arbitrary number of dimensions,
+            in addition, those embeddings become the new representation for each node.
+            <br>
+            Since the embeddings are representations of the graph nodes, we may use any classification algorithm to
+            predict whether there should be a link between 2 given nodes in the graph. Therefore, after generating the
+            embeddings for each node, all we must do is repeatedly randomly select edges or non-edges composed of
+            vertices
+            <code class="inline_code">u</code> and <code class="inline_code">v</code>, concatenate their embeddings
+            forming a single larger array so this becomes a features array and, finally, define their class to
+            correspond whether it's an edge or non-edge. Just to clarify, a non-edge is the absence of an edge (or link)
+            between two vertices. It's very important to notice a few key points to this approach:
+            <ul>
+                <li>not all edges and non-edges should be selected to compose the training data, the idea is to train
+                    the classifier with limited information on the graph. This strategy enables predicting links
+                    over all non presented cases of edges and non-edges;
+                </li>
+                <li>
+                    the links and non-links should be selected at random obeying the same proportion. Consider, again, our
+                    facebook example graph with 4039 nodes and 88234 links. It's non-links would be all the links
+                    in the complementary graph (without self loops), i. e.,
+                    <code class="inline_code">4039 <sup>2</sup> - 4039 - 88234 = 16221248</code> non-links. Therefore,
+                    if we define our links selection rate to be 10%, then we must select for training approximately
+                    8823 links and 1622124 non-links. This strategy is focused on maintained fairness for the predictions
+                    to be performed by our classifier;
+                </li>
+                <li>
+                    an ideal sampling rate would be 50%, in addition, the target links and non-links meant for prediction
+                    should be left out of the training;
+                </li>
+                <li>
+                    an example application of link prediction is: suppose you are working with chemistry and you'd like
+                    to know which chemical compounds react with each other. For that, you build a graph where each vertex
+                    represents a chemical compound and each link represents that those two compounds react together. Note
+                    that you'd only create links between compounds you for sure to react together, while the compounds
+                    which you know for sure that do not react and the ones which you don't know if they react, you leave
+                    them without edges. As you have realized by now, comparing all 1000 chemical compounds with each
+                    other results in 499500 unique chemical tests to be performed (excluding tests with a chemical against
+                    itself), which can extremely expensive and time demanding. Link prediction would accelerate and make
+                    cheaper this process, it would give you the links which are likely the exist, reducing the practical
+                    testing to a few tens of unique chemicals combinations;
+                </li>
+            </ul>
+
+            to
+            concatenate the
+            embeddings of 2 randomly selected vertices which represents an edge or a non-edge,
+
+            <br><br><br>
+            <hr>
+			Cheers!
+			<br>
+			gmmoliveira1@gmail.com
+		</div>
+
+		<div id="page_dates">
+			Page created on <b>August 11, 2020</b>
+			<br>
+			Page last updated on <b>August 11, 2020</b>
+		</div>
+
+		<div id="footer">
+			Web site created by Guilherme Oliveira, it may be used by anyone, free of charge. See <a class="footer_links" href="LICENSE.html" rel="noopener noreferrer" target="_blank">license</a>.
+            <hr>
+			Copyright <sup>&#9400;</sup> 2020 Guilherme Oliveira
+			<br>
+			SPDX-License-Identifier: <a class="footer_links" href="https://www.apache.org/licenses/LICENSE-2.0" rel="noopener noreferrer" target="_blank">Apache-2.0</a>
+		</div>
+	</body>
+</html>
