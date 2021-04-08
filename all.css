@@ -298,3 +298,8 @@ a:hover {
     color: white;
     background-color: #000085;
 }
+
+.terminal_output {
+    background-color: black;
+	color: white;
+}
