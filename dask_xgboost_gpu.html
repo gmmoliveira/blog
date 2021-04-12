@@ -190,18 +190,18 @@ xgb_model = dask_xgboost_train(local_dask_client, params, dtrain, num_boost_roun
 			The following resources were used in the scope of the python source-code provided which were also the
 			parameters taken into account for writing this article:
 			<ul>
-				<li>python 3.7</li>
-				<li>xgboost 1.1.1</li>
-				<li>dask 2.19.0</li>
-				<li>dask-cuda 0.14.1</li>
-				<li>numpy 1.18.2</li>
+				<li>python 3.8.3</li>
+				<li>xgboost 1.3.3</li>
+				<li>dask 2.30.0</li>
+				<li>dask-cuda 0.18.0</li>
+				<li>numpy 1.19.2</li>
 				<li>pandas 1.0.3</li>
 			</ul>
 			Assuming you already have the specified python version, installing the above packages is easy using the
 			following console command:
 			<br>
 
-<pre><code class="language-bash">$ python[3.7] -m pip install numpy==1.18.2 pandas==1.0.3 dask==2.19.0 dask-cuda==0.14.1 xgboost==1.1.1</code></pre>
+<pre><code class="language-bash">$ python[3.7] -m pip install numpy==1.19.2 pandas==1.0.3 dask==2.30.0 dask-cuda==0.14.1 xgboost==1.3.3</code></pre>
 			<br>
 			A few key points to dedicate attention are:
 			<ul>
@@ -222,6 +222,14 @@ xgb_model = dask_xgboost_train(local_dask_client, params, dtrain, num_boost_roun
 			written in Python.
 			A documentation of the code is provided in the "README.md" file, as well as docstrings in the source-code
 			itself.
+
+			<h3>Practical Example</h3>
+			A practical example of
+			<a href="link_prediction.html" target="_blank">
+			running the XGBoost framework in the GPU may be seen
+			on this link prediction example.
+			</a>
+
 			<br><br><br>
 			<hr>
 			Cheers!
@@ -232,7 +240,7 @@ xgb_model = dask_xgboost_train(local_dask_client, params, dtrain, num_boost_roun
 		<div id="page_dates">
 			Page created on <b>July 07, 2020</b>
 			<br>
-			Page last updated on <b>July 07, 2020</b>
+			Page last updated on <b>April 08, 2021</b>
 		</div>
 		
 		<div id="footer">
